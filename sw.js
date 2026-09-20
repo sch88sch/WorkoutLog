@@ -1,7 +1,7 @@
 // Lift Log offline support. You never need to edit this file:
 // the version comes from APP_VERSION in index.html.
 const VERSION = 'lift-log-' + (new URL(self.location).searchParams.get('v') || '0');
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/apple-touch-icon.png'];
+const SHELL = ['./', './index.html', './manifest.webmanifest', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
