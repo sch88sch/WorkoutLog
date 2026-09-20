@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#F3EFEB" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#141110" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -39,12 +39,14 @@
   --accent:#E8875F; --accent-ink:#1A0E09; --accent-soft:#3A241B;
   --up:#5CC48A; --down:#F0735F; --same:#A3968E; color-scheme:dark;
 }
-html{-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{touch-action:manipulation;-webkit-text-size-adjust:100%;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased}
+body{touch-action:manipulation;margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased}
 .app{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:14px 60px}
-button,input,textarea{font:inherit;color:inherit}
+button,input,textarea{font:inherit;color:inherit;touch-action:manipulation}
+input,textarea{font-size:16px}
+button{-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:4px 12px}
@@ -71,9 +73,13 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:.55}
 .icon:hover{background:var(--sunk);color:var(--ink)}
 .linkbtn{border:0;background:none;padding:0;color:var(--accent);cursor:pointer;font:600 12px var(--body);letter-spacing:.04em;text-transform:none}
 
-.datebar{display:grid;grid-template-columns:44px 1fr 44px;gap:8px;align-items:center}
-.datebar input{text-align:center;font-weight:600}
-.datebar .btn{padding:0;font-size:20px}
+.datebar{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;gap:8px;align-items:stretch}
+.datebar .btn,.datebar input{height:48px;min-height:48px;margin:0}
+.datebar .btn{padding:0;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.datebar .btn svg{width:20px;height:20px;display:block}
+.datebar input{-webkit-appearance:none;appearance:none;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:600;font-size:16px;line-height:1;padding:0 8px}
+.datebar input::-webkit-date-and-time-value{text-align:center;margin:0}
+.datebar input::-webkit-datetime-edit{padding:0}
 .daylabel{text-align:center;margin:6px 0 16px;font:700 22px/1.1 var(--display);letter-spacing:.04em;text-transform:uppercase}
 
 .ex-list{display:flex;flex-direction:column;gap:12px}
@@ -152,7 +158,7 @@ input::placeholder,textarea::placeholder{color:var(--muted);opacity:.55}
 <script>
 (function(){
 /* ======= Change this number every time you upload a new version ======= */
-const APP_VERSION = 'v4';
+const APP_VERSION = 'v5';
 /* ====================================================================== */
 
 const $ = s => document.querySelector(s);
@@ -258,9 +264,9 @@ function renderLog(){
   const pick = names.filter(n => state.editNames || !inToday.has(key(n)));
   $('#view-log').innerHTML = `
     <div class="datebar">
-      <button class="btn" data-act="prev" aria-label="Previous day">‹</button>
+      <button class="btn" data-act="prev" aria-label="Previous day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <input type="date" id="log-date" value="${esc(state.date)}" aria-label="Date">
-      <button class="btn" data-act="next" aria-label="Next day">›</button>
+      <button class="btn" data-act="next" aria-label="Next day"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <p class="daylabel">${esc(dayWord(state.date))}</p>
     <div class="ex-list">${exs.map(exCard).join('')}</div>
