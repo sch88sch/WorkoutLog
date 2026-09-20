@@ -1,12 +1,12 @@
 {
   "name": "Lift Log",
   "short_name": "Lift Log",
-  "description": "Gym workout log with rest timer, history, PRs and progress charts.",
+  "description": "Simple gym log with a daily summary.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#EFF1EE",
+  "background_color": "#F3EFEB",
   "theme_color": "#AC563C",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },

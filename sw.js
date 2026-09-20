@@ -1,6 +1,6 @@
-// Lift Log service worker — lets the app open with no signal.
-// Bump VERSION whenever you upload a changed index.html so phones pick it up.
-const VERSION = 'lift-log-v2';
+// Lift Log offline support. You never need to edit this file:
+// the version comes from APP_VERSION in index.html.
+const VERSION = 'lift-log-' + (new URL(self.location).searchParams.get('v') || '0');
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -9,7 +9,7 @@ self.addEventListener('install', e => {
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
-// Serve from cache straight away, refresh the cache in the background.
+// Open instantly from the saved copy; fetch a fresh copy in the background.
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
